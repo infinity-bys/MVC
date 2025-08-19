@@ -9,7 +9,7 @@ class TareaModel {
 
     // Leer tareas
     public function leer() {
-        $query = "SELECT id, titulo, descripcion, fecha_creacion FROM " . $this->table_name . " ORDER BY fecha_creacion DESC";
+        $query = "SELECT id, titulo, descripcion, fecha_creacion FROM " . $this->table_name . "WHERE estado = 1 ORDER BY fecha_creacion DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -46,4 +46,35 @@ class TareaModel {
         }
         return null;
     }
+
+    // Actualizar tarea
+    public function actualizar($id, $titulo, $descripcion) {
+        $query = "UPDATE " . $this->table_name . " SET titulo = :titulo, descripcion = :descripcion WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+
+        $titulo = htmlspecialchars(strip_tags($titulo));
+        $descripcion = htmlspecialchars(strip_tags($descripcion));
+
+        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":titulo", $titulo);
+        $stmt->bindParam(":descripcion", $descripcion);
+
+        if($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    // Eliminar tarea por ID
+    public function eliminar($id) {
+        $query = "UPDATE tareas SET estado = 0 WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        if($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
 }

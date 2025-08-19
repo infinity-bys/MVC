@@ -28,7 +28,7 @@
                     <td>
                         <a href="index.php?accion=editar&id=<?php echo $row['id']; ?>" 
                            class="btn btn-warning btn-sm">Editar</a>
-                        <a href="#" class="btn btn-danger btn-sm" onclick="">Eliminar</a>
+                        <a href="index.php?accion=eliminar&id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Esta seguro que desea borrar esta tarea')">Eliminar</a>
                     </td>
                 </tr>
             <?php endwhile; ?>

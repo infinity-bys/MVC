@@ -8,8 +8,8 @@
 <body>
 <div class="container mt-5">
     <h1>Editar Tarea</h1>
-    <form action="" method="post">
-        <input type="hidden" name="id" value="<?php echo $tarea['id']; ?>">
+    <form action="index.php?accion=actualizar" method="post">
+        <input type="Hidden" name="id" value="<?php echo $id ?>">
         <div class="mb-3">
             <label for="titulo" class="form-label">Título</label>
             <input type="text" class="form-control" id="titulo" name="titulo" 
