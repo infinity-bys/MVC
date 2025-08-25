@@ -2,29 +2,34 @@
 require_once 'models/TareaModel.php';
 require_once 'config/Database.php';
 
-class TareaController {
+class TareaController
+{
     private $db;
     private $tareaModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $database = new Database();
         $this->db = $database->getConnection();
         $this->tareaModel = new TareaModel($this->db);
     }
 
     // Mostrar todas las tareas
-    public function index() {
+    public function index()
+    {
         $tareas = $this->tareaModel->leer();
         include 'views/home.php';
     }
 
     // Crear la tarea
-    public function crear() {
+    public function crear()
+    {
         include 'views/crear.php';
     }
 
     // Guardar tarea
-    public function guardar() {
+    public function guardar()
+    {
         if ($_POST) {
             $titulo = $_POST['titulo'];
             $descripcion = $_POST['descripcion'];
@@ -38,7 +43,8 @@ class TareaController {
     }
 
     // Mostrar la información en el formulario
-    public function editar() {
+    public function editar()
+    {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $tarea = $this->tareaModel->leerUno($id);
@@ -52,7 +58,8 @@ class TareaController {
     }
 
     // Actualizar tarea
-    public function actualizar() {
+    public function actualizar()
+    {
         if ($_POST) {
             $id = $_POST['id'];
             $titulo = $_POST['titulo'];
@@ -68,7 +75,8 @@ class TareaController {
 
 
     // Eliminar tarea
-    public function eliminar() {
+    public function eliminar()
+    {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             if ($this->tareaModel->eliminar($id)) {
@@ -78,7 +86,4 @@ class TareaController {
             }
         }
     }
-
-
-    
 }

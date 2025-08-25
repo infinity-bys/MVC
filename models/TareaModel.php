@@ -1,22 +1,26 @@
 <?php
-class TareaModel {
+class TareaModel
+{
     private $conn;
     private $table_name = "tareas";
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
 
     // Leer tareas
-    public function leer() {
-        $query = "SELECT id, titulo, descripcion, fecha_creacion FROM " . $this->table_name . "WHERE estado = 1 ORDER BY fecha_creacion DESC";
+    public function leer()
+    {
+        $query = "SELECT id, titulo, descripcion, fecha_creacion FROM " . $this->table_name . " WHERE estado = 1 ORDER BY fecha_creacion DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
     // Crear tarea
-    public function crear($titulo, $descripcion) {
+    public function crear($titulo, $descripcion)
+    {
         $query = "INSERT INTO " . $this->table_name . " SET titulo = :titulo, descripcion = :descripcion";
         $stmt = $this->conn->prepare($query);
 
@@ -26,14 +30,15 @@ class TareaModel {
         $stmt->bindParam(":titulo", $titulo);
         $stmt->bindParam(":descripcion", $descripcion);
 
-        if($stmt->execute()) {
+        if ($stmt->execute()) {
             return true;
         }
         return false;
     }
 
     // Leer una tarea
-    public function leerUno($id) {
+    public function leerUno($id)
+    {
         $query = "SELECT titulo, descripcion FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
@@ -41,14 +46,15 @@ class TareaModel {
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($row) {
+        if ($row) {
             return $row;
         }
         return null;
     }
 
     // Actualizar tarea
-    public function actualizar($id, $titulo, $descripcion) {
+    public function actualizar($id, $titulo, $descripcion)
+    {
         $query = "UPDATE " . $this->table_name . " SET titulo = :titulo, descripcion = :descripcion WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
@@ -59,22 +65,21 @@ class TareaModel {
         $stmt->bindParam(":titulo", $titulo);
         $stmt->bindParam(":descripcion", $descripcion);
 
-        if($stmt->execute()) {
+        if ($stmt->execute()) {
             return true;
         }
         return false;
     }
 
-
-    // Eliminar tarea por ID
-    public function eliminar($id) {
+    public function eliminar($id)
+    {
         $query = "UPDATE tareas SET estado = 0 WHERE id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        if($stmt->execute()) {
+
+        if ($stmt->execute()) {
             return true;
         }
         return false;
     }
-
 }
